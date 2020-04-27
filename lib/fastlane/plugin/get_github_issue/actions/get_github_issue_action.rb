@@ -10,7 +10,17 @@ module Fastlane
           server_url: "https://api.github.com",
           api_token: params[:api_token],
           http_method: 'GET',
-          path: "/repos/#{params[:user]}/#{params[:repository]}/issues/#{params[:issue_number]}"
+          path: "/repos/#{params[:user]}/#{params[:repository]}/issues/#{params[:issue_number]}",
+          error_handlers: {
+            404 => proc do |result|
+              UI.message("Issue not found for issue number #{params[:issue_number]}.")
+              return nil
+            end,
+            '*' => proc do |result|
+              UI.message("Something went wrong getting issue for issue number #{params[:issue_number]}.")
+              return nil
+            end
+          }
         )
         return JSON.parse(response[:body])
       end
@@ -24,12 +34,12 @@ module Fastlane
       end
 
       def self.return_value
-        "Issue in JSON. If no issue exists an exception is raised."
+        "Issue in JSON. If no issue exists nil is returned."
       end
 
       def self.details
         # Optional:
-        "Fetches single Github issues using the Github REST API. Returned issue is formatted in JSON. If no issue is found an exception is raised."
+        "Fetches single Github issues using the Github REST API. Returned issue is formatted in JSON. If no issue is found nil is returned."
       end
 
       def self.available_options

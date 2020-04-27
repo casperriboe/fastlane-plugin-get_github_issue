@@ -12,9 +12,20 @@ fastlane add_plugin get_github_issue
 
 ## About get_github_issue
 
-Fetches Github issue details
+Fetches Github issue details, handles exceptions and returns the issue details formatted in JSON.
 
-**Note to author:** Add a more detailed description about this plugin here. If your plugin contains multiple actions, make sure to mention them here.
+```
+issue = get_github_issue(
+  user: 'your_username',
+  repository: 'your_repository',
+  issue_number: 'your_issue_number',
+  api_token: 'your_api_token'
+)
+puts issue["title"]
+=> My title
+puts issue["user"]["login"]
+=> author_username
+```
 
 ## Example
 
