@@ -1,0 +1,10 @@
+lane :test do
+  issue = get_github_issue(
+    user: 'your_username',
+    repository: 'your_repository',
+    issue_number: 'your_issue_number',
+    api_token: 'your_api_token'
+  )
+  puts issue["title"]
+  #=> My title
+end
